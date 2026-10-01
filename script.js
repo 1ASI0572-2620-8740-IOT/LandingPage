@@ -119,6 +119,5 @@ form?.addEventListener('submit', (event) => {
   const formData = new FormData(form);
   const fullName = (formData.get('name') || '').toString().trim();
   const firstName = fullName.split(' ')[0] || 'amigo';
-  message.textContent = `Gracias, ${firstName}. Recibimos tu mensaje y te contactaremos pronto.`;
-  form.reset();
+  message.textContent = `Gracias, ${firstName}. Este formulario aún no realiza envíos; escríbenos a hola@hydroguard.pe.`;
 });

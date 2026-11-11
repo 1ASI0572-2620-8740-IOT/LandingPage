@@ -1203,7 +1203,7 @@ footer > a:last-child:hover {
   border-color: var(--aqua);
 }
 
-.reveal {
+.reveal.reveal-ready {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -1226,6 +1226,11 @@ footer > a:last-child:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
   .reveal {
     opacity: 1 !important;
     transform: none !important;
@@ -1409,4 +1414,72 @@ footer > a:last-child:hover {
   .contact h2 em {
     letter-spacing: -0.6px;
   }
+}
+/* Shared access, keyboard and language controls; preserve the landing identity. */
+:root { --focus: #006b58; }
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.section-dark :where(a, button):focus-visible,
+.video-modal :where(a, button):focus-visible { outline-color: var(--aqua); }
+.skip-link {
+  position: fixed; top: 8px; left: 8px; z-index: 100;
+  transform: translateY(-160%); padding: 12px 18px;
+  background: var(--ink); color: #fff; border-radius: 4px;
+}
+.skip-link:focus { transform: none; }
+.site-header { gap: 20px; }
+.language-control { display: grid; gap: 3px; flex-shrink: 0; }
+.language-control label { font-size: 12px; font-weight: 700; }
+.language-control select {
+  min-height: 44px; max-width: 185px; border: 1px solid var(--muted);
+  background: var(--paper); color: var(--ink); border-radius: 4px;
+  padding: 8px; font: 600 12px var(--heading);
+}
+.main-nav { gap: 20px; }
+.main-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+.main-nav a:hover { color: var(--focus); }
+.main-nav .nav-cta:hover { color: #fff; }
+.eyebrow, .point > span, .text-link:hover, .email-link:hover { color: var(--focus); }
+.section-dark .eyebrow, .video-modal .eyebrow { color: var(--aqua); }
+.brand > span:last-child span { color: var(--focus); }
+.contact-form label, .contact-form input, .contact-form textarea { font-size: 14px; }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--focus); }
+.contact-form :is(input, textarea):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--muted); }
+.contact-form [aria-invalid="true"] { border-color: #a02222; }
+#contact-note, .form-message { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.hero-trust p, .dashboard-top, .reading-grid small, .status-good,
+.chart span, .valve-row, .floating-alert small, .eyebrow, .sector-number,
+.video-label, .coming-soon, .team-video-link small { font-size: 12px; }
+.modal-close { min-width: 44px; min-height: 44px; }
+footer { flex-wrap: wrap; gap: 20px; }
+footer p, footer > a:not(.brand) { font-size: 12px; }
+footer > a:not(.brand) { color: inherit; min-height: 44px; display: inline-flex; align-items: center; }
+footer > a:not(.brand):hover { text-decoration: underline; }
+.terms-page { max-width: 900px; margin: auto; padding: 40px 6vw 80px; }
+.terms-page h1 { font-size: clamp(30px, 5vw, 48px); }
+.terms-page h2 { margin-top: 32px; font-size: 22px; }
+.terms-page p { font-size: 16px; line-height: 1.8; }
+.terms-page a { color: var(--focus); }
+@media (max-width: 1100px) and (min-width: 801px) {
+  .site-header { padding-inline: 3vw; gap: 12px; }
+  .main-nav { gap: 12px; }
+  .brand { font-size: 19px; }
+  .language-control select { max-width: 145px; }
+}
+@media (max-width: 800px) {
+  .site-header { height: auto; min-height: 84px; display: grid; grid-template-columns: 1fr auto; padding-block: 16px; }
+  .menu-toggle { justify-self: end; min-width: 44px; min-height: 44px; }
+  .language-control { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; }
+  .main-nav { top: 100%; }
+  .main-nav a:hover { color: var(--aqua); }
+  .main-nav a:focus-visible { outline-color: var(--aqua); }
+  .hero { padding-top: 35px; }
+  .orb-two { right: 0; }
+  .orb-one { max-width: 100%; height: auto; aspect-ratio: 1; }
 }

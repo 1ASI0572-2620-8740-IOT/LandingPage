@@ -1,23 +1,37 @@
 // Mobile navigation toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('.main-nav');
+const t = (key) => window.HydroGuardI18n?.t(key) || key;
+function closeMenu() {
+  navigation?.classList.remove('open');
+  menuToggle?.setAttribute('aria-expanded', 'false');
+  menuToggle?.setAttribute('aria-label', t('Open menu'));
+}
 
 menuToggle?.addEventListener('click', () => {
   const isOpen = navigation.classList.toggle('open');
   menuToggle.setAttribute('aria-expanded', String(isOpen));
-  menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  menuToggle.setAttribute('aria-label', t(isOpen ? 'Close menu' : 'Open menu'));
 });
 
 document.querySelectorAll('.main-nav a').forEach((link) => {
   link.addEventListener('click', () => {
-    navigation.classList.remove('open');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-    menuToggle?.setAttribute('aria-label', 'Abrir menú');
+    closeMenu();
   });
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && navigation?.classList.contains('open')) {
+    closeMenu();
+    menuToggle?.focus();
+  }
+});
+// Do not leave a hidden navigation link focused when the menu is collapsed.
+navigation?.addEventListener('focusout', (event) => {
+  if (!navigation.contains(event.relatedTarget) && event.relatedTarget !== menuToggle) closeMenu();
 });
 
 // Scroll reveal animations
-const observer = new IntersectionObserver((entries) => {
+const observer = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('is-visible');
@@ -27,15 +41,20 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.12 }) : null;
 
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+document.querySelectorAll('.reveal').forEach((element) => {
+  observer?.observe(element);
+  element.classList.add('reveal-ready');
+  if (!observer) element.classList.add('is-visible');
+});
 
 // Counter animation for IoT dashboard
 let countersAnimated = false;
 function animateCounters() {
   if (countersAnimated) return;
   countersAnimated = true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const counters = document.querySelectorAll('[data-counter]');
   counters.forEach((el) => {
     const target = parseFloat(el.getAttribute('data-counter'));
@@ -71,15 +90,20 @@ setTimeout(() => {
 const modal = document.querySelector('#video-modal');
 const modalTitle = document.querySelector('#modal-title');
 const modalClose = document.querySelector('.modal-close');
+let videoTrigger;
+let videoTitleKey;
 
 document.querySelectorAll('[data-video]').forEach((trigger) => {
   trigger.addEventListener('click', () => {
+    videoTrigger = trigger;
+    videoTitleKey = trigger.classList.contains('team-video-link') ? 'The HydroLink team' : 'HydroGuard product';
     if (modalTitle && trigger.dataset.video) {
-      modalTitle.textContent = trigger.dataset.video;
+      modalTitle.textContent = t(videoTitleKey);
     }
     modal?.showModal();
   });
 });
+modal?.addEventListener('close', () => videoTrigger?.focus());
 
 modalClose?.addEventListener('click', () => {
   modal?.close();
@@ -100,24 +124,32 @@ if (yearEl) {
 // Contact form handling
 const form = document.querySelector('#contact-form');
 const message = document.querySelector('.form-message');
+let formMessageKey = '';
+document.addEventListener('languagechange', () => {
+  menuToggle?.setAttribute('aria-label', t(navigation?.classList.contains('open') ? 'Close menu' : 'Open menu'));
+  if (modal?.open && modalTitle && videoTitleKey) modalTitle.textContent = t(videoTitleKey);
+  if (message) message.textContent = formMessageKey ? t(formMessageKey) : '';
+});
 
 form?.querySelectorAll('input, textarea').forEach((input) => {
   input.addEventListener('input', () => {
+    input.removeAttribute('aria-invalid');
     if (message && message.textContent) {
       message.textContent = '';
+      formMessageKey = '';
     }
   });
 });
 
 form?.addEventListener('submit', (event) => {
   event.preventDefault();
+  form.querySelectorAll('input, textarea').forEach((input) => input.setAttribute('aria-invalid', String(!input.validity.valid)));
   if (!form.checkValidity()) {
-    message.textContent = 'Completa los campos requeridos para enviar tu mensaje.';
+    formMessageKey = 'Complete the required fields to send your message.';
+    message.textContent = t(formMessageKey);
     form.reportValidity();
     return;
   }
-  const formData = new FormData(form);
-  const fullName = (formData.get('name') || '').toString().trim();
-  const firstName = fullName.split(' ')[0] || 'amigo';
-  message.textContent = `Gracias, ${firstName}. Este formulario aún no realiza envíos; escríbenos a hola@hydroguard.pe.`;
+  formMessageKey = 'This form does not send messages yet; write to hola@hydroguard.pe.';
+  message.textContent = t(formMessageKey);
 });

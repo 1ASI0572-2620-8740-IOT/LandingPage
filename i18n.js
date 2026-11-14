@@ -1,6 +1,15 @@
 // English source messages; Spanish Latin America translations. No HTML is injected.
 (() => {
   const messages = {
+  "Explore the experience": "Conoce la experiencia",
+  "HydroGuard in use.": "HydroGuard en uso.",
+  "Real screenshots of the administrative platform, operator app and physical prototype will be added here.": "Aquí se añadirán capturas reales de la plataforma administrativa, la app del operario y el prototipo físico.",
+  "Administrative platform": "Plataforma administrativa",
+  "Screenshot pending: monitoring and water measurements.": "Captura pendiente: monitoreo y mediciones del agua.",
+  "Operator app": "App del operario",
+  "Screenshot pending: assigned reservoir and treatment.": "Captura pendiente: reservorio asignado y tratamiento.",
+  "Physical prototype": "Prototipo físico",
+  "Photo pending: sensors and valve control.": "Fotografía pendiente: sensores y control de la válvula.",
   "HydroGuard — Water under control": "HydroGuard — Agua bajo control",
   "HydroGuard: smart, safe water monitoring for textile and hydroponic organizations.": "HydroGuard: monitoreo inteligente y seguro del agua para organizaciones textiles e hidropónicas.",
   "water monitoring, pH control, water temperature, IoT, textile industry, hydroponics, traceability": "monitoreo de agua, control de pH, temperatura del agua, IoT, industria textil, hidroponía, trazabilidad",

@@ -1416,6 +1416,10 @@ footer > a:last-child:hover {
   }
 }
 /* Shared access, keyboard and language controls; preserve the landing identity. */
+.evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 20px; }
+.evidence-placeholder { border: 1px dashed var(--muted); border-radius: 12px; padding: 24px; min-height: 150px; }
+.evidence-placeholder h3 { margin: 0 0 12px; }
+.evidence-placeholder p { color: var(--muted); line-height: 1.6; }
 :root { --focus: #006b58; }
 :where(a, button, input, textarea, select):focus-visible {
   outline: 3px solid var(--focus);

@@ -1487,3 +1487,9 @@ footer > a:not(.brand):hover { text-decoration: underline; }
   .orb-two { right: 0; }
   .orb-one { max-width: 100%; height: auto; aspect-ratio: 1; }
 }
+
+/* Contact submission states; retain the existing layout and focus indicators. */
+.contact-form .button:disabled { cursor: wait; opacity: 0.75; transform: none; box-shadow: none; }
+.contact-form .form-message[data-state="error"] { color: #a02222; }
+.contact-form .form-message[data-state="success"] { color: var(--focus); }
+#contact-submit-label { font: inherit; }

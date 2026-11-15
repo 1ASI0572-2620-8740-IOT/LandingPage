@@ -1,6 +1,25 @@
 // English source messages; Spanish Latin America translations. No HTML is injected.
 (() => {
   const messages = {
+  "These terms describe the current academic scope and may be updated alongside the project. For questions about inquiries or their handling, contact the HydroLink team through the landing page contact form.": "Estas condiciones describen el alcance académico actual y pueden actualizarse junto con el proyecto. Para preguntas sobre las consultas o su tratamiento, contacta al equipo HydroLink mediante el formulario de contacto de la landing.",
+  "Send your inquiry to the HydroLink team through Formspree. Please do not include passwords or sensitive information.": "Envía tu consulta al equipo HydroLink mediante Formspree. No incluyas contraseñas ni información sensible.",
+  "How we handle inquiries": "Cómo tratamos las consultas",
+  "Sending…": "Enviando…",
+  "This field is required.": "Este campo es obligatorio.",
+  "Check the required fields and enter a valid email address.": "Revisa los campos obligatorios e ingresa un correo válido.",
+  "Contact submission is currently unavailable. Please try again later.": "El envío no está disponible en este momento. Inténtalo más tarde.",
+  "Sending your request…": "Enviando tu solicitud…",
+  "The submission limit was reached. Please try again later.": "Se alcanzó el límite de envíos. Inténtalo más tarde.",
+  "The service rejected the request. Check your details and try again.": "El servicio rechazó la solicitud. Revisa tus datos e inténtalo nuevamente.",
+  "The service could not accept your request. Please try again later.": "El servicio no pudo aceptar tu solicitud. Inténtalo más tarde.",
+  "The service did not confirm acceptance. Your details have been kept.": "El servicio no confirmó la aceptación. Tus datos se han conservado.",
+  "The service received your request. Thank you!": "El servicio recibió tu solicitud. ¡Gracias!",
+  "We could not confirm receipt. Your details have been kept; retrying may send a duplicate.": "No pudimos confirmar la recepción. Tus datos se han conservado; reintentar podría duplicar el envío.",
+  "Last updated: November 15, 2026.": "Última actualización: 15 de noviembre de 2026.",
+  "The form sends inquiries through Formspree to the team's configured mailbox. JavaScript is required for submission. The language selector saves only your preference in the browser's local storage, when available.": "El formulario envía consultas mediante Formspree al buzón configurado del equipo. Se requiere JavaScript para realizar el envío. El selector de idioma guarda únicamente tu preferencia en el almacenamiento local del navegador, cuando está disponible.",
+  "Your name, email address and message are sent to Formspree to process information and demonstration requests and notify the team. Your email address is used to reply to your inquiry. Formspree and the receiving mailbox may retain inquiries; see the provider privacy policy below. Do not include passwords, device credentials or sensitive information.": "Tu nombre, correo y mensaje se envían a Formspree para procesar consultas y solicitudes de demostración y notificar al equipo. Tu correo se utiliza para responder a tu consulta. Formspree y el buzón receptor pueden conservar las consultas; revisa la política de privacidad del proveedor enlazada abajo. No incluyas contraseñas, credenciales de dispositivos ni información sensible.",
+  "Formspree privacy policy": "Política de privacidad de Formspree",
+
   "Explore the experience": "Conoce la experiencia",
   "HydroGuard in use.": "HydroGuard en uso.",
   "Real screenshots of the administrative platform, operator app and physical prototype will be added here.": "Aquí se añadirán capturas reales de la plataforma administrativa, la app del operario y el prototipo físico.",
@@ -116,9 +135,6 @@
   "Skip to content": "Saltar al contenido",
   "Language": "Idioma",
   "Terms and conditions": "Términos y condiciones",
-  "This form does not send messages yet. You can contact us using the email link.": "El formulario aún no envía mensajes. Puedes contactarnos mediante el enlace de correo.",
-  "Complete the required fields to send your message.": "Completa los campos requeridos para enviar tu mensaje.",
-  "This form does not send messages yet; write to hola@hydroguard.pe.": "Este formulario aún no realiza envíos; escríbenos a hola@hydroguard.pe.",
   "Terms and conditions — HydroGuard": "Términos y condiciones — HydroGuard",
   "Terms of use for the HydroGuard landing page and academic prototype.": "Condiciones de uso de la landing y del prototipo académico HydroGuard.",
   "Back to HydroGuard": "Volver a HydroGuard",
@@ -135,12 +151,8 @@
   "Availability and external services": "Disponibilidad y servicios externos",
   "The academic environment may experience pauses, restarts and delays. Continuous availability is not offered. Links to applications, images and future videos may depend on external providers.": "El entorno académico puede experimentar pausas, reinicios y demoras. No se ofrece disponibilidad continua. Los enlaces a aplicaciones, imágenes y futuros videos pueden depender de proveedores externos.",
   "Data and contact": "Datos y contacto",
-  "This landing page's form does not transmit or store inquiries on a server. The language selector saves only your preference in the browser's local storage, when available.": "El formulario de esta landing no transmite ni almacena las consultas en un servidor. El selector de idioma guarda únicamente tu preferencia en el almacenamiento local del navegador, cuando está disponible.",
-  "If you use the email link, your email application handles delivery. Do not include passwords, device credentials or sensitive information in inquiries.": "Si utilizas el enlace de correo, tu aplicación de correo gestionará el envío. No incluyas contraseñas, credenciales de dispositivos ni información sensible en tus consultas.",
   "Operational data from authenticated applications is not managed through this form. Service-specific terms and policies must be defined before commercial use.": "Los datos operativos de las aplicaciones autenticadas no se gestionan mediante este formulario. Antes de un uso comercial deberán definirse las condiciones y políticas específicas del servicio.",
   "Changes and inquiries": "Cambios y consultas",
-  "These terms describe the current academic scope and may be updated alongside the project. For clarification, use the contact published on the landing page.": "Estas condiciones describen el alcance académico actual y pueden actualizarse junto con el proyecto. Para aclaraciones, utiliza el contacto publicado en la landing.",
-  "Last updated: November 11, 2026.": "Última actualización: 11 de noviembre de 2026."
 };
   const normalize = (value) => value.trim().replace(/\s+/g, ' ');
   const textEntries = [];

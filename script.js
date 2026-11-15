@@ -121,35 +121,109 @@ if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
 
-// Contact form handling
+// Contact form handling. Configure only the public Formspree endpoint in index.html.
 const form = document.querySelector('#contact-form');
 const message = document.querySelector('.form-message');
+const submitLabel = document.querySelector('#contact-submit-label');
+const submitButton = form?.querySelector('button[type="submit"]');
+const fields = form ? [...form.querySelectorAll('[name="name"], [name="email"], [name="message"]')] : [];
 let formMessageKey = '';
+let sending = false;
+function renderContact() {
+  if (message) message.textContent = formMessageKey ? t(formMessageKey) : '';
+  fields.forEach((input) => { if (input.validity.customError) input.setCustomValidity(t('This field is required.')); });
+  if (submitLabel) submitLabel.textContent = t(sending ? 'Sending…' : 'Send message');
+}
+function contactStatus(key, state) {
+  formMessageKey = key;
+  if (message) message.dataset.state = state;
+  renderContact();
+}
+function configuredEndpoint() {
+  const endpoint = form?.dataset.formspreeEndpoint || '';
+  // Reject placeholders and arbitrary destinations; this is a public form ID, not a secret.
+  return /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(endpoint) ? endpoint : '';
+}
 document.addEventListener('languagechange', () => {
   menuToggle?.setAttribute('aria-label', t(navigation?.classList.contains('open') ? 'Close menu' : 'Open menu'));
   if (modal?.open && modalTitle && videoTitleKey) modalTitle.textContent = t(videoTitleKey);
-  if (message) message.textContent = formMessageKey ? t(formMessageKey) : '';
+  renderContact();
 });
-
-form?.querySelectorAll('input, textarea').forEach((input) => {
+fields.forEach((input) => {
   input.addEventListener('input', () => {
+    input.setCustomValidity('');
     input.removeAttribute('aria-invalid');
-    if (message && message.textContent) {
-      message.textContent = '';
-      formMessageKey = '';
-    }
+    if (!sending) contactStatus('', 'idle');
   });
 });
-
-form?.addEventListener('submit', (event) => {
+form?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  form.querySelectorAll('input, textarea').forEach((input) => input.setAttribute('aria-invalid', String(!input.validity.valid)));
+  if (sending) return;
+  fields.forEach((input) => {
+    input.setCustomValidity(input.value.trim() ? '' : t('This field is required.'));
+    input.setAttribute('aria-invalid', String(!input.validity.valid));
+  });
   if (!form.checkValidity()) {
-    formMessageKey = 'Complete the required fields to send your message.';
-    message.textContent = t(formMessageKey);
+    contactStatus('Check the required fields and enter a valid email address.', 'error');
+    fields.find((input) => !input.validity.valid)?.focus();
     form.reportValidity();
     return;
   }
-  formMessageKey = 'This form does not send messages yet; write to hola@hydroguard.pe.';
-  message.textContent = t(formMessageKey);
+  const endpoint = configuredEndpoint();
+  if (!endpoint) {
+    contactStatus('Contact submission is currently unavailable. Please try again later.', 'error');
+    return;
+  }
+  const payload = Object.fromEntries(fields.map((input) => [input.name, input.value.trim()]));
+  sending = true;
+  submitButton.disabled = true;
+  fields.forEach((input) => { input.readOnly = true; });
+  submitButton.setAttribute('aria-busy', 'true');
+  contactStatus('Sending your request…', 'sending');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+      credentials: 'omit'
+    });
+    if (!response.ok) {
+      if (response.status === 429) contactStatus('The submission limit was reached. Please try again later.', 'error');
+      else if (response.status === 400 || response.status === 422) contactStatus('The service rejected the request. Check your details and try again.', 'error');
+      else contactStatus('The service could not accept your request. Please try again later.', 'error');
+      return;
+    }
+    const result = await response.json();
+    // A successful HTTP status alone must not turn an arbitrary JSON body into success.
+    // Support affirmative boolean markers, including providers that omit `ok`.
+    const isObject = result !== null && typeof result === 'object' && !Array.isArray(result);
+    const knownFields = isObject && Object.keys(result).every((key) => ['ok', 'success', 'next'].includes(key));
+    const affirmative = isObject && (result.ok === true || result.success === true);
+    const validFlags = isObject && ['ok', 'success'].every((key) => !(key in result) || result[key] === true);
+    const validNext = isObject && (!('next' in result) ||
+      (typeof result.next === 'string' && /^(\/(?!\/)|https:\/\/formspree\.io\/)/.test(result.next)));
+    if (!knownFields || !affirmative || !validFlags || !validNext) {
+      contactStatus('The service did not confirm acceptance. Your details have been kept.', 'error');
+      return;
+    }
+    form.reset();
+    fields.forEach((input) => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); });
+    contactStatus('The service received your request. Thank you!', 'success');
+  } catch {
+    // A lost response does not prove rejection. Never retry automatically.
+    contactStatus('We could not confirm receipt. Your details have been kept; retrying may send a duplicate.', 'error');
+  } finally {
+    clearTimeout(timeout);
+    sending = false;
+    submitButton.disabled = false;
+    fields.forEach((input) => { input.readOnly = false; });
+    submitButton.removeAttribute('aria-busy');
+    renderContact();
+  }
 });
+renderContact();
+// Enable native submit controls only after the handler and initial state are ready.
+if (submitButton) submitButton.disabled = false;

@@ -234,16 +234,17 @@
       <div class="contact-title reveal">
         <p class="eyebrow">Let's talk</p>
         <h2>Your water deserves<br /><em>to be in good hands.</em></h2>
-        <p>Tell us about your operation and let's explore how HydroGuard can help.</p><a class="email-link"
-          href="mailto:hola@hydroguard.pe">hola@hydroguard.pe <span>↗</span></a>
+        <p>Tell us about your operation and let's explore how HydroGuard can help.</p>
       </div>
-      <form class="contact-form reveal delay-1" id="contact-form" aria-describedby="contact-note" novalidate>
-        <p id="contact-note">This form does not send messages yet. You can contact us using the email link.</p>
+      <form class="contact-form reveal delay-1" id="contact-form" data-formspree-endpoint="https://formspree.io/f/moedeady" aria-describedby="contact-note" novalidate>
+        <p id="contact-note">Send your inquiry to the HydroLink team through Formspree. Please do not include passwords or sensitive information.</p>
         <label>Full name<input type="text" name="name" autocomplete="name" placeholder="What is your name?" required /></label>
         <label>Email address<input type="email" name="email" autocomplete="email" placeholder="name@company.com" required /></label>
         <label>Tell us about your operation<textarea name="message" placeholder="I would like to use HydroGuard for..."
             rows="3" required></textarea></label>
-        <button class="button button-primary" type="submit">Send message <span>→</span></button>
+        <p><a href="terms.html#contact-privacy">How we handle inquiries</a></p>
+        <button class="button button-primary" type="submit" disabled><span data-no-i18n id="contact-submit-label">Send message</span> <span aria-hidden="true">→</span></button>
+        <noscript><p role="status">JavaScript is required to submit this form. / Debes habilitar JavaScript para enviar este formulario.</p></noscript>
         <p class="form-message" role="status" aria-live="polite"></p>
       </form>
     </section>

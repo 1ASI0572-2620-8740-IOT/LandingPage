@@ -115,6 +115,63 @@ modal?.addEventListener('click', (event) => {
   }
 });
 
+const evidenceViewer = document.querySelector('#evidence-viewer');
+if (typeof evidenceViewer?.showModal === 'function') {
+  const image = evidenceViewer.querySelector('img');
+  const caption = evidenceViewer.querySelector('figcaption');
+  const title = evidenceViewer.querySelector('.evidence-viewer-title');
+  const position = evidenceViewer.querySelector('.evidence-position');
+  let photos = [];
+  let currentPhoto = 0;
+  let openingPhoto;
+
+  function showEvidencePhoto(index) {
+    currentPhoto = (index + photos.length) % photos.length;
+    const photo = photos[currentPhoto];
+    image.src = photo.href;
+    caption.textContent = photo.querySelector('span').textContent;
+    title.textContent = photo.closest('.evidence-album').querySelector('h3').textContent;
+    position.textContent = `${currentPhoto + 1} / ${photos.length}`;
+  }
+
+  document.querySelectorAll('.evidence-album').forEach((album) => {
+    const albumPhotos = [...album.querySelectorAll('[data-evidence-photo]')];
+    albumPhotos.forEach((photo, index) => {
+      photo.addEventListener('click', (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        openingPhoto = photo;
+        photos = albumPhotos;
+        showEvidencePhoto(index);
+        evidenceViewer.showModal();
+      });
+    });
+  });
+
+  evidenceViewer.querySelectorAll('[data-evidence-step]').forEach((button) => {
+    button.addEventListener('click', () => {
+      showEvidencePhoto(currentPhoto + Number(button.dataset.evidenceStep));
+    });
+  });
+  evidenceViewer.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    showEvidencePhoto(currentPhoto + (event.key === 'ArrowRight' ? 1 : -1));
+  });
+  evidenceViewer.addEventListener('close', () => openingPhoto?.focus());
+  evidenceViewer.addEventListener('click', (event) => {
+    if (event.target !== evidenceViewer) return;
+    const bounds = evidenceViewer.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom) {
+      evidenceViewer.close();
+    }
+  });
+  document.addEventListener('languagechange', () => {
+    if (evidenceViewer.open) showEvidencePhoto(currentPhoto);
+  });
+}
+
 // Dynamic year
 const yearEl = document.querySelector('#year');
 if (yearEl) {

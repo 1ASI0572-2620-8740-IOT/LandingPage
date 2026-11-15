@@ -22,7 +22,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261115-video" />
+  <link rel="stylesheet" href="styles.css?v=20261115-evidence" />
 </head>
 
 <body>
@@ -149,16 +149,69 @@
       </div>
     </section>
 
-    <section class="product-evidence section" aria-labelledby="evidence-title">
-      <div class="section-heading">
-        <p class="eyebrow">Explore the experience</p>
-        <h2 id="evidence-title">HydroGuard in use.</h2>
-        <p>Real screenshots of the administrative platform, operator app and physical prototype will be added here.</p>
+    <section class="product-evidence section" id="evidencias" aria-labelledby="evidence-title">
+      <div class="evidence-intro">
+        <div>
+          <p class="eyebrow">Explore the experience</p>
+          <h2 id="evidence-title">HydroGuard in use.</h2>
+        </div>
+        <p>Browse the web and mobile apps, and see how the physical prototype is assembled.</p>
       </div>
       <div class="evidence-grid">
-        <article class="evidence-placeholder"><h3>Administrative platform</h3><p>Screenshot pending: monitoring and water measurements.</p></article>
-        <article class="evidence-placeholder"><h3>Operator app</h3><p>Screenshot pending: assigned reservoir and treatment.</p></article>
-        <article class="evidence-placeholder"><h3>Physical prototype</h3><p>Photo pending: sensors and valve control.</p></article>
+        <article class="evidence-album evidence-album--web">
+          <h3>Administrative platform</h3>
+          <p>Monitor devices, water readings and operational history.</p>
+          <div class="evidence-photos">
+            <a class="evidence-photo" href="assets/evidence/web-monitoring.webp" data-evidence-photo>
+              <img src="assets/evidence/web-monitoring.webp" alt="" width="1280" height="620" loading="lazy" decoding="async" />
+              <span>Monitoring center</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/web-telemetry.webp" data-evidence-photo>
+              <img src="assets/evidence/web-telemetry.webp" alt="" width="1280" height="620" loading="lazy" decoding="async" />
+              <span>IoT telemetry</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/web-traceability.webp" data-evidence-photo>
+              <img src="assets/evidence/web-traceability.webp" alt="" width="1280" height="620" loading="lazy" decoding="async" />
+              <span>Operational traceability</span>
+            </a>
+          </div>
+        </article>
+        <article class="evidence-album evidence-album--mobile">
+          <h3>Operator app</h3>
+          <p>Review assigned reservoirs and operating settings from the field.</p>
+          <div class="evidence-photos">
+            <a class="evidence-photo" href="assets/evidence/mobile-home.webp" data-evidence-photo>
+              <img src="assets/evidence/mobile-home.webp" alt="" width="840" height="1680" loading="lazy" decoding="async" />
+              <span>Operator dashboard</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/mobile-reservoirs.webp" data-evidence-photo>
+              <img src="assets/evidence/mobile-reservoirs.webp" alt="" width="840" height="1680" loading="lazy" decoding="async" />
+              <span>Assigned reservoirs</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/mobile-configuration.webp" data-evidence-photo>
+              <img src="assets/evidence/mobile-configuration.webp" alt="" width="840" height="1680" loading="lazy" decoding="async" />
+              <span>Operating settings</span>
+            </a>
+          </div>
+        </article>
+        <article class="evidence-album evidence-album--prototype">
+          <h3>Physical prototype</h3>
+          <p>See the reservoir, sensor circuit and valve actuator.</p>
+          <div class="evidence-photos">
+            <a class="evidence-photo" href="assets/evidence/prototype-overview.webp" data-evidence-photo>
+              <img src="assets/evidence/prototype-overview.webp" alt="" width="1280" height="963" loading="lazy" decoding="async" />
+              <span>Prototype assembled</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/prototype-circuit.webp" data-evidence-photo>
+              <img src="assets/evidence/prototype-circuit.webp" alt="" width="963" height="1280" loading="lazy" decoding="async" />
+              <span>Sensor circuit</span>
+            </a>
+            <a class="evidence-photo" href="assets/evidence/prototype-actuator.webp" data-evidence-photo>
+              <img src="assets/evidence/prototype-actuator.webp" alt="" width="1280" height="963" loading="lazy" decoding="async" />
+              <span>Valve actuator</span>
+            </a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -260,6 +313,23 @@
       <p class="eyebrow">VIDEO COMING SOON</p>
       <h2 id="modal-title">Video</h2>
       <p id="modal-description">This space is reserved for the official video.</p>
+    </div>
+  </dialog>
+  <dialog class="evidence-viewer" id="evidence-viewer" aria-label="Product photos">
+    <div class="evidence-viewer-bar">
+      <p class="evidence-viewer-title"></p>
+      <form method="dialog">
+        <button type="submit" class="evidence-control" aria-label="Close" autofocus>×</button>
+      </form>
+    </div>
+    <figure class="evidence-viewer-figure">
+      <img alt="" />
+      <figcaption aria-live="polite"></figcaption>
+    </figure>
+    <div class="evidence-viewer-navigation">
+      <button type="button" class="evidence-control" data-evidence-step="-1" aria-label="Previous photo">←</button>
+      <span class="evidence-position" aria-hidden="true"></span>
+      <button type="button" class="evidence-control" data-evidence-step="1" aria-label="Next photo">→</button>
     </div>
   </dialog>
   <script src="i18n.js"></script>
